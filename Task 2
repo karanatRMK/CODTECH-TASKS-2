@@ -1,0 +1,35 @@
+import subprocess
+import os
+
+# Function to perform Nmap scan
+def nmap_scan(target):
+    print(f"Starting Nmap scan on {target}")
+    subprocess.run(["nmap", "-sV", target])
+
+# Function to perform SQL injection test using SQLmap
+def sqlmap_scan(target, url_param):
+    print(f"Starting SQL injection scan on {target}")
+    subprocess.run(["sqlmap", "-u", f"{target}?{url_param}=1", "--batch"])
+
+# Function to test for XSS using OWASP ZAP
+def zap_xss_scan(target):
+    print(f"Starting XSS scan on {target}")
+    zap_path = "/path/to/zap.sh"  # Adjust this to the path of your ZAP installation
+    os.system(f"{zap_path} -quickurl {target} -quickout report.xml -quickprogress")
+
+# Main function
+def main():
+    target = input("Enter the target URL: ")
+    url_param = input("Enter a URL parameter to test for SQL injection (e.g., id): ")
+
+    # Perform Nmap scan
+    nmap_scan(target)
+
+    # Perform SQL injection test
+    sqlmap_scan(target, url_param)
+
+    # Perform XSS scan using OWASP ZAP
+    zap_xss_scan(target)
+
+if __name__ == "__main__":
+    main()
